@@ -2,6 +2,24 @@
 
 PyTorch implementation of [Neural IMage Assessment](https://arxiv.org/abs/1709.05424) by Hossein Talebi and Peyman Milanfar. You can learn more from [this post at Google Research Blog](https://research.googleblog.com/2017/12/introducing-nima-neural-image-assessment.html). 
 
+##Refer:
+
+https://github.com/onnx/tutorials/blob/master/tutorials/VisualizingAModel.md
+
+https://github.com/onnx/tutorials/blob/master/tutorials/PytorchOnnxExport.ipynb
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Installing
 
