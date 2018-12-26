@@ -45,3 +45,26 @@ class InferenceModel:
         std_score = get_std_score(prob)
 
         return format_output(mean_score, std_score, prob)
+
+
+if __name__ == '__main__':
+    from torchvision import transforms
+    from torch.autograd import Variable
+    # preprocess
+    IMAGE_NET_MEAN = [0.485, 0.456, 0.406]
+    IMAGE_NET_STD = [0.229, 0.224, 0.225]
+    normalize = transforms.Normalize(mean=IMAGE_NET_MEAN, std=IMAGE_NET_STD)
+    val_transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor(), normalize])
+    # NIMA
+    nima_model = NIMA(pretrained_base_model=False)
+    # load pretrain
+    path_to_model = download_file(config('MODEL_URL'), config('MODEL_PATH'))
+    state_dict = torch.load(path_to_model, map_location=lambda storage, loc: storage)
+    nima_model.load_state_dict(state_dict)
+    # set model as evaluation
+    nima_model.eval()
+    # Input to the model
+    batch_size = 1
+    input_var = Variable(torch.randn(batch_size, 3, 224, 224), requires_grad=True)
+    # Export the model
+    torch_out = torch.onnx.export(nima_model, input_var, "nima_model.onnx", export_params=True)

@@ -128,3 +128,14 @@ def mobile_net_v2(pretrained=True):
         state_dict = torch.load(path_to_model, map_location=lambda storage, loc: storage)
         model.load_state_dict(state_dict)
     return model
+
+
+if __name__ == '__main__':
+    from torch.autograd import Variable
+
+    mobilenetv2_model = mobile_net_v2(pretrained=True)
+    # Input to the model
+    batch_size = 1
+    input_var = Variable(torch.randn(batch_size, 3, 224, 224), requires_grad=True)
+    # Export the model
+    torch_out = torch.onnx.export(mobilenetv2_model, input_var, "mobile_net_v2.onnx", export_params=True)
